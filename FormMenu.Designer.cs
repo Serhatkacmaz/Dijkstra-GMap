@@ -38,11 +38,13 @@
             this.btnPointAdd = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnClearMap = new System.Windows.Forms.Button();
-            this.textState = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panelInputs = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblTotalPath = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblRoute = new System.Windows.Forms.Label();
             this.panelInputs.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -172,27 +174,15 @@
             this.btnClearMap.UseVisualStyleBackColor = false;
             this.btnClearMap.Click += new System.EventHandler(this.btnClearMap_Click);
             // 
-            // textState
-            // 
-            this.textState.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textState.Enabled = false;
-            this.textState.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
-            this.textState.Location = new System.Drawing.Point(15, 31);
-            this.textState.Name = "textState";
-            this.textState.ReadOnly = true;
-            this.textState.Size = new System.Drawing.Size(768, 96);
-            this.textState.TabIndex = 11;
-            this.textState.Text = "";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Lucida Fax", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(20, 5);
+            this.label3.Location = new System.Drawing.Point(24, 85);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 24);
+            this.label3.Size = new System.Drawing.Size(169, 24);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Durum";
+            this.label3.Text = "Toplam Yol => ";
             // 
             // panelInputs
             // 
@@ -224,7 +214,9 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textState);
+            this.panel1.Controls.Add(this.lblRoute);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.lblTotalPath);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnStart);
             this.panel1.Controls.Add(this.btnClearMap);
@@ -233,6 +225,36 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(802, 205);
             this.panel1.TabIndex = 15;
+            // 
+            // lblTotalPath
+            // 
+            this.lblTotalPath.AutoSize = true;
+            this.lblTotalPath.Font = new System.Drawing.Font("Lucida Fax", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPath.Location = new System.Drawing.Point(199, 85);
+            this.lblTotalPath.Name = "lblTotalPath";
+            this.lblTotalPath.Size = new System.Drawing.Size(17, 24);
+            this.lblTotalPath.TabIndex = 13;
+            this.lblTotalPath.Text = "-";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Lucida Fax", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(24, 33);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 24);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Rota =>";
+            // 
+            // lblRoute
+            // 
+            this.lblRoute.AutoSize = true;
+            this.lblRoute.Font = new System.Drawing.Font("Lucida Fax", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRoute.Location = new System.Drawing.Point(121, 33);
+            this.lblRoute.Name = "lblRoute";
+            this.lblRoute.Size = new System.Drawing.Size(17, 24);
+            this.lblRoute.TabIndex = 15;
+            this.lblRoute.Text = "-";
             // 
             // FormMenu
             // 
@@ -270,10 +292,12 @@
         private System.Windows.Forms.Button btnPointAdd;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnClearMap;
-        private System.Windows.Forms.RichTextBox textState;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelInputs;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lblRoute;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTotalPath;
     }
 }

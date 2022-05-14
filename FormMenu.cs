@@ -3,7 +3,6 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap_Tutorial.Helpers;
-using GMap_Tutorial.Models;
 using GMap_Tutorial.Settings;
 using GMap_Tutorial.Transactions;
 using System;
@@ -19,6 +18,7 @@ namespace GMap_Tutorial
     {
         //-> Variables
         int indexCount = 0;
+        private double _shortest = default(double);
         private string[,] totalArray = new string[100, 100];
         private double[,] totalKmArray = new double[100, 100];
         private string[,] globalArray = new string[100, 100];
@@ -249,17 +249,17 @@ namespace GMap_Tutorial
                     Informations.Index = Convert.ToInt32(totalKmArray[i, 1]);
                 }
             }
+
+            var path = string.Empty;
             for (int i = 0; i < Informations.NumberOfElement + 1; i++)
             {
-                textState.Text += totalArray[Informations.Index, i].ToString();
-                if (i < Informations.NumberOfElement)
-                {
-                    textState.Text += " -> ";
-                }
+                path += totalArray[Informations.Index, i].ToString();
+                path += " -> ";
             }
-
-            textState.Text += "\n\nToplam yol =>" + " " + shortest + "km";
-
+            path += "0";
+            
+            lblRoute.Text = path;
+            _shortest = shortest;
         }
 
         private int CalcDistance(PointLatLng point1, PointLatLng point2)
@@ -277,7 +277,8 @@ namespace GMap_Tutorial
         private void btnClearMap_Click(object sender, EventArgs e)
         {
             map.Overlays.Clear();
-            textState.Text = String.Empty;
+            lblRoute.Text = "-";
+            lblTotalPath.Text = "-";
             Informations.GlobalPoints = new List<PointLatLng>();
             LoadMap();
         }
@@ -304,7 +305,9 @@ namespace GMap_Tutorial
                 map.Overlays.Clear();
                 LoadMap();
 
-                textState.Text = String.Empty;
+                lblRoute.Text = "-";
+                lblTotalPath.Text = "-";
+
                 Informations.Count = 0;
                 Informations.Index = 0;
                 Informations.NumberOfElement = 0;
@@ -350,6 +353,21 @@ namespace GMap_Tutorial
                     map.Overlays.Add(routes);
                 }
 
+                //end -> start
+                var endNode = Informations.TotalArray[Informations.Index, Informations.NumberOfElement];
+                var route2 = GoogleMapProvider.Instance.GetRoute(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0], false, false, 14);
+                var r2 = new GMapRoute(route2.Points, "My Route")
+                {
+                    Stroke = new Pen(Color.Green, 5)
+                };
+
+                var x = CalcDistance(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0]);
+
+                var routes2 = new GMapOverlay("routes");
+                routes2.Routes.Add(r2);
+                map.Overlays.Add(routes2);
+
+                lblTotalPath.Text = (_shortest + x) + "km";
             }
         }
 
