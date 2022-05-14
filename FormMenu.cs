@@ -253,12 +253,23 @@ namespace GMap_Tutorial
             var path = string.Empty;
             for (int i = 0; i < Informations.NumberOfElement + 1; i++)
             {
-                path += totalArray[Informations.Index, i].ToString();
-                path += " -> ";
+                if (totalArray[Informations.Index, i] != null)
+                {
+                    path += totalArray[Informations.Index, i].ToString();
+                    path += " -> ";
+                }
+
             }
-            path += "0";
-            
-            lblRoute.Text = path;
+            if (Informations.GlobalPoints.Count > 2)
+            {
+                path += "0";
+            }
+            else
+            {
+                path = path.Trim().Trim('>').Trim('-');
+            }
+
+            lblRoute.Text = string.IsNullOrEmpty(path) ? "-" : path;
             _shortest = shortest;
         }
 
@@ -352,23 +363,30 @@ namespace GMap_Tutorial
                     routes.Routes.Add(r);
                     map.Overlays.Add(routes);
                 }
+            }
 
+            if (Informations.GlobalPoints.Count > 2)
+            {
                 //end -> start
                 var endNode = Informations.TotalArray[Informations.Index, Informations.NumberOfElement];
                 var route2 = GoogleMapProvider.Instance.GetRoute(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0], false, false, 14);
                 var r2 = new GMapRoute(route2.Points, "My Route")
                 {
-                    Stroke = new Pen(Color.Green, 5)
+                    Stroke = new Pen(Color.Green, 3)
                 };
 
-                var x = CalcDistance(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0]);
+                var km = CalcDistance(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0]);
 
                 var routes2 = new GMapOverlay("routes");
                 routes2.Routes.Add(r2);
                 map.Overlays.Add(routes2);
 
-                lblTotalPath.Text = (_shortest + x) + "km";
+                lblTotalPath.Text = (_shortest + km) + "km";
             }
+            else
+            {
+                lblTotalPath.Text = _shortest + "km";
+            } 
         }
 
         private void txtLat_KeyPress(object sender, KeyPressEventArgs e)
