@@ -284,7 +284,6 @@ namespace GMap_Tutorial
 
         private int CalcDistance(PointLatLng point1, PointLatLng point2)
         {
-
             var route = GoogleMapProvider.Instance.GetRoute(point1, point2, false, false, 14);
             var r = new GMapRoute(route.Points, "My Route");
             var routes = new GMapOverlay("routes");
@@ -295,9 +294,10 @@ namespace GMap_Tutorial
         }
 
         //-> Events
-        private void btnExit_Click(object sender, EventArgs e)
+        private void btnClearMap_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            _coordinateList.Clear();
+            LoadMap();
         }
 
         private void btnPointAdd_Click(object sender, EventArgs e)
@@ -359,6 +359,5 @@ namespace GMap_Tutorial
 
             }
         }
-
     }
 }

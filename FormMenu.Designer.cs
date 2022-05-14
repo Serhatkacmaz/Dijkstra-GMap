@@ -37,7 +37,7 @@
             this.txtLng = new System.Windows.Forms.TextBox();
             this.btnPointAdd = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
+            this.btnClearMap = new System.Windows.Forms.Button();
             this.textState = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panelInputs = new System.Windows.Forms.Panel();
@@ -153,18 +153,18 @@
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // btnExit
+            // btnClearMap
             // 
-            this.btnExit.BackColor = System.Drawing.Color.Gainsboro;
-            this.btnExit.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
-            this.btnExit.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnExit.Location = new System.Drawing.Point(964, 573);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(263, 40);
-            this.btnExit.TabIndex = 10;
-            this.btnExit.Text = "Çıkış";
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnClearMap.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnClearMap.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
+            this.btnClearMap.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.btnClearMap.Location = new System.Drawing.Point(964, 573);
+            this.btnClearMap.Name = "btnClearMap";
+            this.btnClearMap.Size = new System.Drawing.Size(263, 40);
+            this.btnClearMap.TabIndex = 10;
+            this.btnClearMap.Text = "Temizle";
+            this.btnClearMap.UseVisualStyleBackColor = false;
+            this.btnClearMap.Click += new System.EventHandler(this.btnClearMap_Click);
             // 
             // textState
             // 
@@ -209,7 +209,7 @@
             this.Controls.Add(this.panelInputs);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textState);
-            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnClearMap);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.map);
             this.Controls.Add(this.splitterMap);
@@ -235,7 +235,7 @@
         private System.Windows.Forms.TextBox txtLng;
         private System.Windows.Forms.Button btnPointAdd;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnClearMap;
         private System.Windows.Forms.RichTextBox textState;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelInputs;
