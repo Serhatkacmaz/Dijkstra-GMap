@@ -1,9 +1,5 @@
 ﻿using GMap.NET;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GMap_Tutorial.Transactions
 {
@@ -15,6 +11,5 @@ namespace GMap_Tutorial.Transactions
         public static List<PointLatLng> GlobalPoints { get; set; } = new List<PointLatLng>();
         public static int Index { get; set; } = 0;
 
-        public static List<string> CoordinatesList = new List<string>();
     }
 }

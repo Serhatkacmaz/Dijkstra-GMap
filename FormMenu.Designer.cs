@@ -41,7 +41,11 @@
             this.textState = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panelInputs = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panelInputs.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
@@ -58,7 +62,7 @@
             this.splitterMap.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitterMap.Location = new System.Drawing.Point(0, 10);
             this.splitterMap.Name = "splitterMap";
-            this.splitterMap.Size = new System.Drawing.Size(1255, 400);
+            this.splitterMap.Size = new System.Drawing.Size(1255, 587);
             this.splitterMap.TabIndex = 2;
             this.splitterMap.TabStop = false;
             // 
@@ -87,7 +91,7 @@
             this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
-            this.map.Size = new System.Drawing.Size(1231, 382);
+            this.map.Size = new System.Drawing.Size(1231, 571);
             this.map.TabIndex = 3;
             this.map.Zoom = 0D;
             // 
@@ -118,6 +122,7 @@
             this.txtLat.Name = "txtLat";
             this.txtLat.Size = new System.Drawing.Size(263, 32);
             this.txtLat.TabIndex = 6;
+            this.txtLat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLat_KeyPress);
             // 
             // txtLng
             // 
@@ -126,13 +131,14 @@
             this.txtLng.Name = "txtLng";
             this.txtLng.Size = new System.Drawing.Size(263, 32);
             this.txtLng.TabIndex = 7;
+            this.txtLng.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLng_KeyPress);
             // 
             // btnPointAdd
             // 
             this.btnPointAdd.BackColor = System.Drawing.Color.Gainsboro;
             this.btnPointAdd.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
             this.btnPointAdd.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnPointAdd.Location = new System.Drawing.Point(136, 140);
+            this.btnPointAdd.Location = new System.Drawing.Point(136, 128);
             this.btnPointAdd.Name = "btnPointAdd";
             this.btnPointAdd.Size = new System.Drawing.Size(263, 40);
             this.btnPointAdd.TabIndex = 8;
@@ -145,7 +151,7 @@
             this.btnStart.BackColor = System.Drawing.Color.Gainsboro;
             this.btnStart.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
             this.btnStart.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnStart.Location = new System.Drawing.Point(547, 573);
+            this.btnStart.Location = new System.Drawing.Point(15, 133);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(350, 40);
             this.btnStart.TabIndex = 9;
@@ -158,7 +164,7 @@
             this.btnClearMap.BackColor = System.Drawing.Color.Gainsboro;
             this.btnClearMap.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
             this.btnClearMap.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnClearMap.Location = new System.Drawing.Point(964, 573);
+            this.btnClearMap.Location = new System.Drawing.Point(520, 133);
             this.btnClearMap.Name = "btnClearMap";
             this.btnClearMap.Size = new System.Drawing.Size(263, 40);
             this.btnClearMap.TabIndex = 10;
@@ -171,10 +177,10 @@
             this.textState.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textState.Enabled = false;
             this.textState.Font = new System.Drawing.Font("Lucida Fax", 15.75F);
-            this.textState.Location = new System.Drawing.Point(547, 458);
+            this.textState.Location = new System.Drawing.Point(15, 31);
             this.textState.Name = "textState";
             this.textState.ReadOnly = true;
-            this.textState.Size = new System.Drawing.Size(680, 96);
+            this.textState.Size = new System.Drawing.Size(768, 96);
             this.textState.TabIndex = 11;
             this.textState.Text = "";
             // 
@@ -182,7 +188,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Lucida Fax", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(543, 431);
+            this.label3.Location = new System.Drawing.Point(20, 5);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(83, 24);
             this.label3.TabIndex = 12;
@@ -190,37 +196,65 @@
             // 
             // panelInputs
             // 
+            this.panelInputs.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelInputs.Controls.Add(this.txtLat);
             this.panelInputs.Controls.Add(this.label1);
             this.panelInputs.Controls.Add(this.label2);
             this.panelInputs.Controls.Add(this.txtLng);
             this.panelInputs.Controls.Add(this.btnPointAdd);
-            this.panelInputs.Location = new System.Drawing.Point(12, 433);
+            this.panelInputs.Location = new System.Drawing.Point(7, 11);
             this.panelInputs.Name = "panelInputs";
-            this.panelInputs.Size = new System.Drawing.Size(472, 187);
+            this.panelInputs.Size = new System.Drawing.Size(419, 189);
             this.panelInputs.TabIndex = 13;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.50199F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.49801F));
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panelInputs, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 603);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1255, 211);
+            this.tableLayoutPanel1.TabIndex = 14;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.textState);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.btnStart);
+            this.panel1.Controls.Add(this.btnClearMap);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(450, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(802, 205);
+            this.panel1.TabIndex = 15;
             // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1255, 625);
-            this.Controls.Add(this.panelInputs);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textState);
-            this.Controls.Add(this.btnClearMap);
-            this.Controls.Add(this.btnStart);
+            this.ClientSize = new System.Drawing.Size(1255, 814);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.map);
             this.Controls.Add(this.splitterMap);
             this.Controls.Add(this.panelTop);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.panelInputs.ResumeLayout(false);
             this.panelInputs.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -239,5 +273,7 @@
         private System.Windows.Forms.RichTextBox textState;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelInputs;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

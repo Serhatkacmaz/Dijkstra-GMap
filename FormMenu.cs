@@ -8,12 +8,9 @@ using GMap_Tutorial.Settings;
 using GMap_Tutorial.Transactions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GMap_Tutorial
@@ -25,7 +22,6 @@ namespace GMap_Tutorial
         private string[,] totalArray = new string[100, 100];
         private double[,] totalKmArray = new double[100, 100];
         private string[,] globalArray = new string[100, 100];
-        List<ModelCoordinate> _coordinateList = new List<ModelCoordinate>();
 
         //-> Constructor
         public FormMenu()
@@ -58,7 +54,7 @@ namespace GMap_Tutorial
             map.Position = new PointLatLng(lat, lng);
 
             PointLatLng point = new PointLatLng(lat, lng);
-            GMapMarker marker = new GMarkerGoogle(point, GMarkerGoogleType.red_dot);
+            GMapMarker marker = Informations.GlobalPoints.Count == 1 ? new GMarkerGoogle(point, GMarkerGoogleType.blue_pushpin) : new GMarkerGoogle(point, GMarkerGoogleType.orange_dot);
 
             GMapOverlay markers = new GMapOverlay("markers");
 
@@ -72,75 +68,55 @@ namespace GMap_Tutorial
 
         private void CalcCoordinates()
         {
-            if (_coordinateList.Count != 0)
+            indexCount = Informations.GlobalPoints.Count();
+            //kısayol algoritması
+            Informations.NumberOfElement = Informations.GlobalPoints.Count - 1;
+            int[] arr = new int[Informations.NumberOfElement];
+
+            for (int i = 0; i < Informations.NumberOfElement; i++)
             {
-                _coordinateList.ToList().ForEach(coordinate =>
-                {
-                    string lat = (coordinate != null) ? coordinate.Lat : "0";
-                    string lng = (coordinate != null) ? coordinate.Lng : "0";
-
-                    Informations.CoordinatesList.Add(lat);
-                    Informations.CoordinatesList.Add(lng);
-                });
-
-                for (int i = 0; i < Informations.CoordinatesList.Count; i = i + 2)
-                {
-                    if (Informations.CoordinatesList[i] != null)
-                    {
-                        Informations.GlobalPoints.Add(new PointLatLng(Convert.ToDouble(Informations.CoordinatesList[i]), Convert.ToDouble(Informations.CoordinatesList[i + 1])));
-                    }
-                }
-
-                indexCount = Informations.GlobalPoints.Count();
-                //kısayol algoritması
-                Informations.NumberOfElement = Informations.GlobalPoints.Count - 1;
-                int[] arr = new int[Informations.NumberOfElement];
-
-                for (int i = 0; i < Informations.NumberOfElement; i++)
-                {
-                    arr[i] = i + 1;
-                }
-
-                Dijikstra(arr, 200);
-                //elemanları belirleme
-                for (int i = 0; i < Informations.NumberOfElement; i++)
-                {
-                    int[] tempArray = new int[arr.Length];
-                    for (int j = 0; j < Informations.NumberOfElement; j++)
-                    {
-                        tempArray[j] = Convert.ToInt32(globalArray[i, j]);
-
-                    }
-                    Dijikstra(tempArray, i);
-                }
-                //en kısa yolu bulma
-                for (int i = Informations.NumberOfElement; i < (Informations.NumberOfElement * Informations.NumberOfElement); i++)
-                {
-                    int[] tempArray = new int[Informations.NumberOfElement];
-                    for (int j = 0; j < Informations.NumberOfElement; j++)
-                    {
-                        tempArray[j] = Convert.ToInt32(globalArray[i, j]);
-
-                    }
-                    Dijikstra(tempArray, i);
-                }
-                //hepsiin başına sıfır ekleme
-                for (int i = 0; i < Informations.Count; i++)
-                {
-                    int[] tempArray = new int[Informations.NumberOfElement];
-                    for (int j = 0; j < Informations.NumberOfElement; j++)
-                    {
-                        tempArray[j] = Convert.ToInt32(globalArray[i, j]);
-                    }
-                    tempArray = InsertFunction(tempArray, 0);
-                    for (int a = 0; a < tempArray.Length; a++)
-                    {
-                        Informations.TotalArray[i, a] = tempArray[a].ToString();
-                    }
-                }
-
-                Resulst();
+                arr[i] = i + 1;
             }
+
+            Dijikstra(arr, 200);
+            //elemanları belirleme
+            for (int i = 0; i < Informations.NumberOfElement; i++)
+            {
+                int[] tempArray = new int[arr.Length];
+                for (int j = 0; j < Informations.NumberOfElement; j++)
+                {
+                    tempArray[j] = Convert.ToInt32(globalArray[i, j]);
+
+                }
+                Dijikstra(tempArray, i);
+            }
+            //en kısa yolu bulma
+            for (int i = Informations.NumberOfElement; i < (Informations.NumberOfElement * Informations.NumberOfElement); i++)
+            {
+                int[] tempArray = new int[Informations.NumberOfElement];
+                for (int j = 0; j < Informations.NumberOfElement; j++)
+                {
+                    tempArray[j] = Convert.ToInt32(globalArray[i, j]);
+
+                }
+                Dijikstra(tempArray, i);
+            }
+            //hepsiin başına sıfır ekleme
+            for (int i = 0; i < Informations.Count; i++)
+            {
+                int[] tempArray = new int[Informations.NumberOfElement];
+                for (int j = 0; j < Informations.NumberOfElement; j++)
+                {
+                    tempArray[j] = Convert.ToInt32(globalArray[i, j]);
+                }
+                tempArray = InsertFunction(tempArray, 0);
+                for (int a = 0; a < tempArray.Length; a++)
+                {
+                    Informations.TotalArray[i, a] = tempArray[a].ToString();
+                }
+            }
+
+            Resulst();
         }
         private void DeplacementFunction(int[] array, int[] valueArray)
         {
@@ -275,10 +251,14 @@ namespace GMap_Tutorial
             }
             for (int i = 0; i < Informations.NumberOfElement + 1; i++)
             {
-                Console.WriteLine(totalArray[Informations.Index, i]);
+                textState.Text += totalArray[Informations.Index, i].ToString();
+                if (i < Informations.NumberOfElement)
+                {
+                    textState.Text += " -> ";
+                }
             }
 
-            textState.Text = "Toplam yol =>" + " " + shortest + "km";
+            textState.Text += "\n\nToplam yol =>" + " " + shortest + "km";
 
         }
 
@@ -296,30 +276,46 @@ namespace GMap_Tutorial
         //-> Events
         private void btnClearMap_Click(object sender, EventArgs e)
         {
-            _coordinateList.Clear();
+            map.Overlays.Clear();
+            textState.Text = String.Empty;
+            Informations.GlobalPoints = new List<PointLatLng>();
             LoadMap();
         }
 
         private void btnPointAdd_Click(object sender, EventArgs e)
         {
-            UpdateMap();
-            _coordinateList.Add(new ModelCoordinate { Lat = txtLat.Text, Lng = txtLng.Text });
-            FormControlHelpers.ClearInputs(panelInputs);
+            if (!FormControlHelpers.IsNullOrEmptyInputs(panelInputs))
+            {
+                Informations.GlobalPoints.Add(new PointLatLng(Convert.ToDouble(txtLat.Text), Convert.ToDouble(txtLng.Text)));
+                UpdateMap();
+                FormControlHelpers.ClearInputs(panelInputs);
+            }
+            else
+            {
+                MessageBox.Show("Konum Bilgisi Girilmedi...", "App", MessageBoxButtons.OK);
+            }
+
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Informations.CoordinatesList.Clear();
-            Informations.Count = 0;
-            Informations.GlobalPoints.Clear();
-            Informations.Index = 0;
-            Informations.NumberOfElement = 0;
-            Array.Clear(Informations.TotalArray, 0, Informations.TotalArray.Length);
-            Array.Clear(totalArray, 0, totalArray.Length);
-            Array.Clear(totalKmArray, 0, totalKmArray.Length);
-            Array.Clear(globalArray, 0, globalArray.Length);
+            if (Informations.GlobalPoints.Count > 0)
+            {
+                //2 satır silinebilir
+                map.Overlays.Clear();
+                LoadMap();
 
-            CalcCoordinates();
-            RouteMap();
+                textState.Text = String.Empty;
+                Informations.Count = 0;
+                Informations.Index = 0;
+                Informations.NumberOfElement = 0;
+                Array.Clear(Informations.TotalArray, 0, Informations.TotalArray.Length);
+                Array.Clear(totalArray, 0, totalArray.Length);
+                Array.Clear(totalKmArray, 0, totalKmArray.Length);
+                Array.Clear(globalArray, 0, globalArray.Length);
+
+                CalcCoordinates();
+                RouteMap();
+            }
         }
 
         private void RouteMap()
@@ -330,18 +326,16 @@ namespace GMap_Tutorial
             map.MaxZoom = 100;
             map.MinZoom = 1;
             map.Zoom = 10;
+
             for (int i = 0; i < Informations.GlobalPoints.Count; i++)
             {
                 double lat = Convert.ToDouble(Informations.GlobalPoints[Convert.ToInt32(Informations.TotalArray[Informations.Index, i])].Lat);
                 double lng = Convert.ToDouble(Informations.GlobalPoints[Convert.ToInt32(Informations.TotalArray[Informations.Index, i])].Lng);
                 map.Position = new PointLatLng(lat, lng);
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarker marker = new GMarkerGoogle(point, GMarkerGoogleType.red_dot);
-                //to create a overly
+                GMapMarker marker = i == 0 ? new GMarkerGoogle(point, GMarkerGoogleType.blue_pushpin) : new GMarkerGoogle(point, GMarkerGoogleType.orange_dot);
                 GMapOverlay markers = new GMapOverlay("markers");
-                //to add all markers to the overly
                 markers.Markers.Add(marker);
-                //to show on google maps
                 map.Overlays.Add(markers);
                 if (i + 1 < Informations.GlobalPoints.Count)
                 {
@@ -354,9 +348,32 @@ namespace GMap_Tutorial
                     var routes = new GMapOverlay("routes");
                     routes.Routes.Add(r);
                     map.Overlays.Add(routes);
-
                 }
 
+            }
+        }
+
+        private void txtLat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtLng_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
             }
         }
     }
