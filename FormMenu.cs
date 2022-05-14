@@ -73,163 +73,163 @@ namespace GMap_Tutorial
             _indexCount = Informations.GlobalPoints.Count();
 
             Informations.NumberOfElement = Informations.GlobalPoints.Count - 1;
-            int[] arr = new int[Informations.NumberOfElement];
+            int[] lst = new int[Informations.NumberOfElement];
 
             for (int i = 0; i < Informations.NumberOfElement; i++)
             {
-                arr[i] = i + 1;
+                lst[i] = i + 1;
             }
 
-            Dijikstra(arr, 200);
+            ShortestAlgorithmByDijsktra(lst, 200);
 
             for (int i = 0; i < Informations.NumberOfElement; i++)
             {
-                int[] tempArray = new int[arr.Length];
+                int[] tempList = new int[lst.Length];
                 for (int j = 0; j < Informations.NumberOfElement; j++)
                 {
-                    tempArray[j] = Convert.ToInt32(_globalArray[i, j]);
+                    tempList[j] = Convert.ToInt32(_globalArray[i, j]);
 
                 }
-                Dijikstra(tempArray, i);
+                ShortestAlgorithmByDijsktra(tempList, i);
             }
 
             for (int i = Informations.NumberOfElement; i < (Informations.NumberOfElement * Informations.NumberOfElement); i++)
             {
-                int[] tempArray = new int[Informations.NumberOfElement];
+                int[] tempList = new int[Informations.NumberOfElement];
                 for (int j = 0; j < Informations.NumberOfElement; j++)
                 {
-                    tempArray[j] = Convert.ToInt32(_globalArray[i, j]);
+                    tempList[j] = Convert.ToInt32(_globalArray[i, j]);
 
                 }
-                Dijikstra(tempArray, i);
+                ShortestAlgorithmByDijsktra(tempList, i);
             }
 
             for (int i = 0; i < Informations.Count; i++)
             {
-                int[] tempArray = new int[Informations.NumberOfElement];
+                int[] tempList = new int[Informations.NumberOfElement];
                 for (int j = 0; j < Informations.NumberOfElement; j++)
                 {
-                    tempArray[j] = Convert.ToInt32(_globalArray[i, j]);
+                    tempList[j] = Convert.ToInt32(_globalArray[i, j]);
                 }
-                tempArray = InsertFunction(tempArray, 0);
-                for (int a = 0; a < tempArray.Length; a++)
+                tempList = AddFunction(tempList, 0);
+                for (int a = 0; a < tempList.Length; a++)
                 {
-                    Informations.TotalArray[i, a] = tempArray[a].ToString();
+                    Informations.TotalArray[i, a] = tempList[a].ToString();
                 }
             }
 
-            Resulst();
+            Results();
         }
-        private void DeplacementFunction(int[] array, int[] valueArray)
+        private void PopFunction(int[] list, int[] valueList)
         {
-            for (int j = 0; j < array.Length; j++)
+            for (int j = 0; j < list.Length; j++)
             {
-                int temp = array[array.Length - 1];
-                for (int i = array.Length - 1; i > 0; i--)
+                int temp = list[list.Length - 1];
+                for (int i = list.Length - 1; i > 0; i--)
                 {
-                    array[i] = array[i - 1];
+                    list[i] = list[i - 1];
 
                 }
-                array[0] = temp;
-                for (int i = valueArray.Length - 1; i >= 0; i--)
+                list[0] = temp;
+                for (int i = valueList.Length - 1; i >= 0; i--)
                 {
-                    array = InsertFunction(array, valueArray[i]);
+                    list = AddFunction(list, valueList[i]);
                 }
-                for (int i = 0; i < array.Length; i++)
+                for (int i = 0; i < list.Length; i++)
                 {
-                    _globalArray[Informations.Count, i] = array[i].ToString();
+                    _globalArray[Informations.Count, i] = list[i].ToString();
                 }
                 Informations.Count += 1;
-                for (int i = 0; i < valueArray.Length; i++)
+                for (int i = 0; i < valueList.Length; i++)
                 {
-                    array = RemoveElement(array);
+                    list = PopElement(list);
                 }
             }
         }
 
-        private void DeplacementFunctionForZero(int[] array)
+        private void PopFunctionForZero(int[] list)
         {
-            for (int j = 0; j < array.Length; j++)
+            for (int j = 0; j < list.Length; j++)
             {
-                int temp = array[array.Length - 1];
-                for (int i = array.Length - 1; i > 0; i--)
+                int temp = list[list.Length - 1];
+                for (int i = list.Length - 1; i > 0; i--)
                 {
-                    array[i] = array[i - 1];
+                    list[i] = list[i - 1];
 
                 }
-                array[0] = temp;
-                for (int i = 0; i < array.Length; i++)
+                list[0] = temp;
+                for (int i = 0; i < list.Length; i++)
                 {
-                    _globalArray[j, i] = array[i].ToString();
+                    _globalArray[j, i] = list[i].ToString();
 
                 }
                 Informations.Count += 1;
             }
         }
 
-        private int[] InsertFunction(int[] array, int value)
+        private int[] AddFunction(int[] list, int value)
         {
-            int[] tempArray = new int[array.Length + 1];
-            int pos = 1;
+            int[] tempList = new int[list.Length + 1];
+            int x = 1;
 
-            for (int i = 0; i < array.Length + 1; i++)
+            for (int i = 0; i < list.Length + 1; i++)
             {
-                if (i < pos - 1)
-                    tempArray[i] = array[i];
-                else if (i == pos - 1)
-                    tempArray[i] = value;
+                if (i < x - 1)
+                    tempList[i] = list[i];
+                else if (i == x - 1)
+                    tempList[i] = value;
                 else
-                    tempArray[i] = array[i - 1];
+                    tempList[i] = list[i - 1];
             }
 
-            return tempArray;
+            return tempList;
         }
 
-        private int[] RemoveElement(int[] tempArray)
+        private int[] PopElement(int[] tempList)
         {
-            tempArray = tempArray.Where((source, index) => index != 0).ToArray();
-            return tempArray;
+            tempList = tempList.Where((source, index) => index != 0).ToArray();
+            return tempList;
         }
 
-        private void Dijikstra(int[] array, int index)
+        private void ShortestAlgorithmByDijsktra(int[] list, int id)
         {
-            if (index != 200)
+            if (id != 200)
             {
-                if (index < array.Length)
+                if (id < list.Length)
                 {
-                    int[] valueArray = new int[1];
-                    for (int i = 0; i < valueArray.Length; i++)
+                    int[] valueList = new int[1];
+                    for (int i = 0; i < valueList.Length; i++)
                     {
-                        valueArray[i] = array[i];
+                        valueList[i] = list[i];
                     }
-                    for (int i = 0; i < valueArray.Length; i++)
+                    for (int i = 0; i < valueList.Length; i++)
                     {
-                        array = RemoveElement(array);
+                        list = PopElement(list);
                     }
-                    DeplacementFunction(array, valueArray);
+                    PopFunction(list, valueList);
                 }
-                else if (array.Length <= index && index < (array.Length * array.Length))
+                else if (list.Length <= id && id < (list.Length * list.Length))
                 {
-                    int[] valueArray = new int[2];
-                    for (int i = 0; i < valueArray.Length; i++)
+                    int[] valueList = new int[2];
+                    for (int i = 0; i < valueList.Length; i++)
                     {
-                        valueArray[i] = array[i];
+                        valueList[i] = list[i];
                     }
-                    for (int i = 0; i < valueArray.Length; i++)
+                    for (int i = 0; i < valueList.Length; i++)
                     {
-                        array = RemoveElement(array);
+                        list = PopElement(list);
                     }
-                    DeplacementFunction(array, valueArray);
+                    PopFunction(list, valueList);
                 }
 
             }
-            else if (index == 200)
+            else if (id == 200)
             {
-                DeplacementFunctionForZero(array);
+                PopFunctionForZero(list);
             }
         }
 
-        private void Resulst()
+        private void Results()
         {
             _totalArray = Informations.TotalArray;
             for (int i = 0; i < Informations.Count; i++)
@@ -237,7 +237,7 @@ namespace GMap_Tutorial
                 double km = 0;
                 for (int j = 0; j < Informations.NumberOfElement + 1; j++)
                 {
-                    km = km + CalcDistance(Informations.GlobalPoints[Convert.ToInt32(_totalArray[i, j])], Informations.GlobalPoints[Convert.ToInt32(_totalArray[i, j + 1])]);
+                    km = km + DistanceBetweenTwoPoints(Informations.GlobalPoints[Convert.ToInt32(_totalArray[i, j])], Informations.GlobalPoints[Convert.ToInt32(_totalArray[i, j + 1])]);
                 }
                 _totalKmArray[i, 0] = km;
                 _totalKmArray[i, 1] = i;
@@ -275,9 +275,9 @@ namespace GMap_Tutorial
             _shortest = shortest;
         }
 
-        private int CalcDistance(PointLatLng point1, PointLatLng point2)
+        private int DistanceBetweenTwoPoints(PointLatLng startPoint, PointLatLng endPoint)
         {
-            var route = GoogleMapProvider.Instance.GetRoute(point1, point2, false, false, 14);
+            var route = GoogleMapProvider.Instance.GetRoute(startPoint, endPoint, false, false, 14);
             var r = new GMapRoute(route.Points, "My Route");
             var routes = new GMapOverlay("routes");
             routes.Routes.Add(r);
@@ -287,7 +287,7 @@ namespace GMap_Tutorial
         }
         #endregion
 
-        private void RouteMap()
+        private void DrawMap()
         {
             GMapProviders.GoogleMap.ApiKey = ServiceSettings.ApiKey;
             map.DragButton = MouseButtons.Left;
@@ -330,7 +330,7 @@ namespace GMap_Tutorial
                     Stroke = new Pen(Color.Green, 3)
                 };
 
-                var km = CalcDistance(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0]);
+                var km = DistanceBetweenTwoPoints(Informations.GlobalPoints[int.Parse(endNode)], Informations.GlobalPoints[0]);
 
                 var routes2 = new GMapOverlay("routes");
                 routes2.Routes.Add(r2);
@@ -388,7 +388,7 @@ namespace GMap_Tutorial
                 Array.Clear(_globalArray, 0, _globalArray.Length);
 
                 CalcCoordinates();
-                RouteMap();
+                DrawMap();
             }
         }
 
