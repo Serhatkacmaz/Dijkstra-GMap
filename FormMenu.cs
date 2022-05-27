@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GMap_Tutorial
@@ -318,6 +319,8 @@ namespace GMap_Tutorial
                     routes.Routes.Add(r);
                     map.Overlays.Add(routes);
                 }
+
+                Thread.Sleep(2000);
             }
 
             if (Informations.GlobalPoints.Count >= 2)
