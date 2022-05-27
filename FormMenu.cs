@@ -320,7 +320,7 @@ namespace GMap_Tutorial
                 }
             }
 
-            if (Informations.GlobalPoints.Count > 2)
+            if (Informations.GlobalPoints.Count >= 2)
             {
                 //end -> start
                 var endNode = Informations.TotalArray[Informations.Index, Informations.NumberOfElement];
@@ -341,6 +341,11 @@ namespace GMap_Tutorial
             else
             {
                 lblTotalPath.Text = _shortest + "km";
+            }
+
+            if (Informations.GlobalPoints.Count == 2)
+            {
+                lblRoute.Text += " -> 0";
             }
         }
 
